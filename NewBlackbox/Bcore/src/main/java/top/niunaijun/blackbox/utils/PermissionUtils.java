@@ -3,7 +3,7 @@
  * @Author: xxxx
  * @CreateDate: 2024/8/1 23:52
  */
-package com.vbox.utils;
+package top.niunaijun.blackbox.utils;
 
 import android.Manifest;
 import android.app.Activity;
@@ -24,10 +24,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.vbox.BlackBoxCore;
-import com.vbox.app.RequestPermissionsActivity;
-import com.vbox.core.system.am.IRequestPermissionsResult;
-import com.vbox.utils.compat.BuildCompat;
+import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.app.RequestPermissionsActivity;
+import top.niunaijun.blackbox.core.system.am.IRequestPermissionsResult;
+import top.niunaijun.blackbox.utils.compat.BuildCompat;
 
 public class PermissionUtils {
 
