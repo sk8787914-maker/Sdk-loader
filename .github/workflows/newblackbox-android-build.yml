@@ -47,7 +47,17 @@ jobs:
           sdkmanager --install "ndk;29.0.13846066"
 
       - name: Build project
-        run: ./gradlew --no-daemon --stacktrace --info --warning-mode all clean :app:assembleDebug :Bcore:assembleDebug :black-reflection:assemble :compiler:assemble
+        run: |
+          set -o pipefail
+          ./gradlew --no-daemon --stacktrace --info --warning-mode all --console=plain --max-workers=2 clean :app:assembleDebug :Bcore:assembleDebug :black-reflection:assemble :compiler:assemble 2>&1 | tee ../gradle-build.log
+
+      - name: Print Gradle error summary
+        if: failure()
+        run: |
+          echo "=== Last 250 lines of gradle-build.log ==="
+          tail -n 250 ../gradle-build.log || true
+          echo "=== Extracted error lines ==="
+          grep -n "error:\|FAILURE:\|Execution failed for task\|Caused by:" ../gradle-build.log | tail -n 200 || true
 
       - name: Upload Gradle diagnostic reports
         if: failure()
@@ -57,6 +67,7 @@ jobs:
           path: |
             NewBlackbox/**/build/reports/**
             NewBlackbox/**/build/tmp/**
+            gradle-build.log
           if-no-files-found: warn
 
       - name: Upload build artifacts
