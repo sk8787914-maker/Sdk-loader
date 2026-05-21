@@ -44,9 +44,9 @@ jobs:
           sdkmanager --install "ndk;29.0.13846066"
 
       - name: Build project
-        run: ./gradlew clean assemble
+        run: ./gradlew --stacktrace --info clean :app:assembleDebug :Bcore:assembleDebug :black-reflection:assemble :compiler:assemble
 
-      - name: Upload APK artifacts
+      - name: Upload build artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
