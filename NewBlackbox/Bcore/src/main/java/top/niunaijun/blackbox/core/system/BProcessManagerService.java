@@ -112,7 +112,7 @@ public class BProcessManagerService implements ISystemService {
     // 20240801 add request permission add start 0
     private void requestPermissionIfNeed(ProcessRecord app) {
         if (PermissionUtils.isCheckPermissionRequired(app.info)) {
-            String[] permissions = BPackageManagerService.get().getDangerousPermissions(app.info.packageName);
+            String[] permissions = PermissionUtils.getDangerousPermissionsForPackage(app.info.packageName, app.userId);
             new Thread(() -> {
 				if (!PermissionUtils.checkPermissions(permissions)) {
 					ConditionVariable permissionLock = new ConditionVariable();
