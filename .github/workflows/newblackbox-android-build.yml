@@ -35,6 +35,14 @@ jobs:
       - name: Ensure Gradle wrapper is executable
         run: chmod +x gradlew
 
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Accept Android SDK licenses and install NDK
+        run: |
+          yes | sdkmanager --licenses >/dev/null
+          sdkmanager --install "ndk;29.0.13846066"
+
       - name: Build project
         run: ./gradlew clean assemble
 
