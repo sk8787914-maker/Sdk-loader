@@ -1,4 +1,4 @@
-package com.vbox.core.system;
+package top.niunaijun.blackbox.core.system;
 
 import android.app.ActivityManager;
 import android.content.Context;
@@ -21,22 +21,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.vbox.BlackBoxCore;
-import com.vbox.core.IBActivityThread;
-import com.vbox.core.env.BEnvironment;
-import com.vbox.core.system.notification.BNotificationManagerService;
-import com.vbox.core.system.pm.BPackageManagerService;
-import com.vbox.core.system.user.BUserHandle;
-import com.vbox.entity.AppConfig;
-import com.vbox.fake.hook.ClassInvocationStub;
-import com.vbox.proxy.ProxyManifest;
-import com.vbox.utils.FileUtils;
-import com.vbox.utils.PermissionUtils;
-import com.vbox.utils.Slog;
-import com.vbox.utils.compat.ApplicationThreadCompat;
-import com.vbox.utils.compat.BuildCompat;
-import com.vbox.utils.compat.BundleCompat;
-import com.vbox.utils.provider.ProviderCall;
+import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.core.IBActivityThread;
+import top.niunaijun.blackbox.core.env.BEnvironment;
+import top.niunaijun.blackbox.core.system.notification.BNotificationManagerService;
+import top.niunaijun.blackbox.core.system.pm.BPackageManagerService;
+import top.niunaijun.blackbox.core.system.user.BUserHandle;
+import top.niunaijun.blackbox.entity.AppConfig;
+import top.niunaijun.blackbox.fake.hook.ClassInvocationStub;
+import top.niunaijun.blackbox.proxy.ProxyManifest;
+import top.niunaijun.blackbox.utils.FileUtils;
+import top.niunaijun.blackbox.utils.PermissionUtils;
+import top.niunaijun.blackbox.utils.Slog;
+import top.niunaijun.blackbox.utils.compat.ApplicationThreadCompat;
+import top.niunaijun.blackbox.utils.compat.BuildCompat;
+import top.niunaijun.blackbox.utils.compat.BundleCompat;
+import top.niunaijun.blackbox.utils.provider.ProviderCall;
 
 /**
  * Created by Milk on 4/2/21.
