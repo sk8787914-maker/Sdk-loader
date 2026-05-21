@@ -21,6 +21,9 @@ jobs:
       run:
         working-directory: NewBlackbox
 
+    env:
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx4g -Dkotlin.daemon.jvm.options=-Xmx2g"
+
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -44,7 +47,17 @@ jobs:
           sdkmanager --install "ndk;29.0.13846066"
 
       - name: Build project
-        run: ./gradlew --stacktrace --info clean :app:assembleDebug :Bcore:assembleDebug :black-reflection:assemble :compiler:assemble
+        run: ./gradlew --no-daemon --stacktrace --info --warning-mode all clean :app:assembleDebug :Bcore:assembleDebug :black-reflection:assemble :compiler:assemble
+
+      - name: Upload Gradle diagnostic reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gradle-diagnostics
+          path: |
+            NewBlackbox/**/build/reports/**
+            NewBlackbox/**/build/tmp/**
+          if-no-files-found: warn
 
       - name: Upload build artifacts
         if: always()
