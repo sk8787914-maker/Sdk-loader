@@ -46,14 +46,14 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_21
-        targetCompatibility JavaVersion.VERSION_21
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     buildFeatures {
         viewBinding true
     }
     kotlinOptions {
-        jvmTarget = '21'
+        jvmTarget = '17'
     }
 
     applicationVariants.configureEach { variant ->
@@ -85,7 +85,7 @@ dependencies {
     implementation 'com.gitee.cbfg5210:RVAdapter:0.3.7'
 
     implementation 'com.github.Othershe:CornerLabelView:1.0.0'
-    implementation 'com.github.nukc.stateview:kotlin:2.2.0'
+    implementation 'com.github.nukc:stateview:v3.0.6'
     implementation 'com.github.Ferfalk:SimpleSearchView:0.2.0'
     implementation 'com.tbuonomo:dotsindicator:4.2'
     implementation 'org.osmdroid:osmdroid-android:6.1.11'

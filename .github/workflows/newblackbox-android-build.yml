@@ -1,0 +1,82 @@
+name: NewBlackbox Android Build
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'NewBlackbox/**'
+      - '.github/workflows/newblackbox-android-build.yml'
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - 'NewBlackbox/**'
+      - '.github/workflows/newblackbox-android-build.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build APK/AAR
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: NewBlackbox
+
+    env:
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx4g -Dkotlin.daemon.jvm.options=-Xmx2g"
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Ensure Gradle wrapper is executable
+        run: chmod +x gradlew
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Accept Android SDK licenses and install NDK
+        run: |
+          yes | sdkmanager --licenses >/dev/null
+          sdkmanager --install "ndk;29.0.13846066"
+
+      - name: Build project
+        run: |
+          set +e
+          set -o pipefail
+          ./gradlew --no-daemon --stacktrace --info --warning-mode all --console=plain --max-workers=2 clean :app:assembleDebug :Bcore:assembleDebug :black-reflection:assemble :compiler:assemble 2>&1 | tee ../gradle-build.log
+          BUILD_EXIT=${PIPESTATUS[0]}
+          if [ "$BUILD_EXIT" -ne 0 ]; then
+            echo "=== Last 400 lines of gradle-build.log ==="
+            tail -n 400 ../gradle-build.log || true
+            echo "=== Extracted error lines ==="
+            grep -nE "error:|FAILURE:|Execution failed for task|Caused by:" ../gradle-build.log | tail -n 300 || true
+          fi
+          exit "$BUILD_EXIT"
+
+      - name: Upload Gradle diagnostic reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gradle-diagnostics
+          path: |
+            NewBlackbox/**/build/reports/**
+            NewBlackbox/**/build/tmp/**
+            gradle-build.log
+          if-no-files-found: warn
+
+      - name: Upload build artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: newblackbox-apk
+          path: |
+            NewBlackbox/**/build/outputs/apk/**/*.apk
+            NewBlackbox/**/build/outputs/**/*.aar
+          if-no-files-found: warn

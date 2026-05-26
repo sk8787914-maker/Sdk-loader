@@ -3,7 +3,7 @@
  * @Author: xxxx
  * @CreateDate: 2024/8/1 23:52
  */
-package com.vbox.utils;
+package top.niunaijun.blackbox.utils;
 
 import android.Manifest;
 import android.app.Activity;
@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.PackageInfo;
 import android.os.Build;
 import android.os.Environment;
 import android.os.RemoteException;
@@ -24,10 +25,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.vbox.BlackBoxCore;
-import com.vbox.app.RequestPermissionsActivity;
-import com.vbox.core.system.am.IRequestPermissionsResult;
-import com.vbox.utils.compat.BuildCompat;
+import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.app.RequestPermissionsActivity;
+import top.niunaijun.blackbox.core.system.am.IRequestPermissionsResult;
+import top.niunaijun.blackbox.utils.compat.BuildCompat;
 
 public class PermissionUtils {
 
@@ -61,15 +62,32 @@ public class PermissionUtils {
     }
     
     public static boolean checkPermissions(String[] permissions) {
-        if (permissions == null || permissions.length == 0 || BlackBoxCore.get() == null) {
+        Context context = BlackBoxCore.getContext();
+        if (permissions == null || permissions.length == 0 || context == null) {
             return false;
         }
         for (String permission : permissions) {
-            if (BlackBoxCore.get().checkSelfPermission(permission)) {
+            if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
                 return false;
             }
         }
         return true;
+    }
+
+    public static String[] getDangerousPermissionsForPackage(String packageName, int userId) {
+        if (packageName == null || packageName.isEmpty()) return new String[0];
+        try {
+            PackageInfo packageInfo = top.niunaijun.blackbox.core.system.pm.BPackageManagerService.get()
+                    .getPackageInfo(packageName, PackageManager.GET_PERMISSIONS, userId);
+            if (packageInfo == null || packageInfo.requestedPermissions == null) return new String[0];
+            List<String> list = new ArrayList<>();
+            for (String p : packageInfo.requestedPermissions) {
+                if (DANGEROUS_PERMISSION.contains(p)) list.add(p);
+            }
+            return list.toArray(new String[0]);
+        } catch (Throwable ignored) {
+            return new String[0];
+        }
     }
     
     public static void startRequestPermissions(Context context, String[] permissions, final CallBack callBack) {
