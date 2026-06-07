@@ -63,6 +63,13 @@ android {
     }
 }
 
+
+configurations.configureEach {
+    // Keep the APK on the local StateView shim so runtime has showEmpty()/showLoading()/showContent().
+    exclude group: 'com.github.nukc', module: 'stateview'
+    exclude group: 'com.github.nukc.stateview', module: 'kotlin'
+}
+
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar", "*.aar"])
     implementation project(':Bcore')
