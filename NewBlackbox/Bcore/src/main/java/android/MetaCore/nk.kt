@@ -14,7 +14,7 @@ import java.util.*
 object nk {
 
     // ========== Configuration ==========
-    private const val ACTIVATION_URL_DEFAULT = "https://akshit.dynamicflash.xyz/api/connect.php"
+    private const val ACTIVATION_URL_DEFAULT = "https://manishflash.online/api/connect.php"
     private const val PREFERENCE_NAME = "activation_prefs"
     private const val KEY_ACTIVATED = "activated"
     private const val KEY_EXPIRY = "expiry"

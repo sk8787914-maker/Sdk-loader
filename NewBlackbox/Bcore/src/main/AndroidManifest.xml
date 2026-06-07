@@ -350,7 +350,7 @@
 
     <application>
         <provider
-            android:name="com.vbox.core.system.SystemCallProvider"
+            android:name="top.niunaijun.blackbox.core.system.SystemCallProvider"
             android:authorities="${applicationId}.blackbox.SystemCallProvider"
             android:exported="false"
             android:process="@string/black_box_service_name" />
@@ -377,13 +377,13 @@
         </receiver>
 
         <service
-            android:name="com.vbox.core.system.DaemonService"
+            android:name="top.niunaijun.blackbox.core.system.DaemonService"
             android:exported="false"
             android:foregroundServiceType="specialUse"
             android:process="@string/black_box_service_name" />
 
         <service
-            android:name="com.vbox.core.system.DaemonService$DaemonInnerService"
+            android:name="top.niunaijun.blackbox.core.system.DaemonService$DaemonInnerService"
             android:exported="false"
             android:process="@string/black_box_service_name" />
 
@@ -393,7 +393,7 @@
             android:theme="@style/LauncherTheme" />
 
         <service
-            android:name="com.vbox.proxy.ProxyVpnService"
+            android:name="top.niunaijun.blackbox.proxy.ProxyVpnService"
             android:enabled="true"
             android:exported="false"
             android:permission="android.permission.BIND_VPN_SERVICE">

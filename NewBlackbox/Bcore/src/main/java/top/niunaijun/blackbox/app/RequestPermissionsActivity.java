@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.core.system.am.IRequestPermissionsResult;
-import top.niunaijun.blackbox.utils.BundleUtils;
+import top.niunaijun.blackbox.utils.compat.BundleCompat;
 
 // 20240801 add request permission add start 0
 @TargetApi(Build.VERSION_CODES.M)
@@ -24,7 +24,7 @@ public class RequestPermissionsActivity extends Activity {
 
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("permissions", permissions);
-        BundleUtils.putBinder(intent, "callback", callback.asBinder());
+        BundleCompat.putBinder(intent, "callback", callback.asBinder());
         context.startActivity(intent);
     }
 
@@ -39,7 +39,7 @@ public class RequestPermissionsActivity extends Activity {
             return;
         }
         final String[] permissions = intent.getStringArrayExtra("permissions");
-        IBinder binder = BundleUtils.getBinder(intent, "callback");
+        IBinder binder = BundleCompat.getBinder(intent, "callback");
         if (binder == null || permissions == null) {
             finish();
             return;
