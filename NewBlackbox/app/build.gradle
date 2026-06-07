@@ -84,6 +84,8 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'com.gitee.cbfg5210:RVAdapter:0.3.7'
 
+    // StateView is provided by app/src/main/java/com/github/nukc/stateview/StateView.java.
+    // Do not add the external StateView artifact here; older packaged variants miss showEmpty() and crash at runtime.
     implementation 'com.github.Othershe:CornerLabelView:1.0.0'
     implementation 'com.github.Ferfalk:SimpleSearchView:0.2.0'
     implementation 'com.tbuonomo:dotsindicator:4.2'

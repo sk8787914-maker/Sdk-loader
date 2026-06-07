@@ -42,3 +42,5 @@
     @top.niunaijun.blackreflection.annotation.BConstructor.* <methods>;
     @top.niunaijun.blackreflection.annotation.BConstructorNotProcess.* <methods>;
 }
+# Keep the local StateView shim methods used by generated view binding and Kotlin screens.
+-keep class com.github.nukc.stateview.StateView { *; }
